@@ -1,0 +1,107 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14"]
+build-backend = "uv_build"
+
+[project]
+name = "rl-training-lab3"
+version = "3.0.0"
+description = "Original Deep Robotics M20 tasks ported to Isaac Lab 3.0 and Isaac Sim 6.2."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Deep Robotics" },
+]
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "isaaclab-dev[isaacsim]",
+    "rsl-rl-lib==5.5.1",
+    "onnx==1.23.2",
+    "onnxruntime==1.26.0",
+]
+
+[project.entry-points."isaaclab.tasks"]
+rl_training = "rl_training.tasks"
+
+[dependency-groups]
+dev = ["codespell==2.4.1", "pre-commit>=4.2", "pytest>=8.3", "ruff==0.14.10"]
+
+[tool.uv]
+index-strategy = "unsafe-best-match"
+prerelease = "allow"
+environments = [
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'linux' and platform_machine == 'aarch64'",
+    "sys_platform == 'win32' and platform_machine == 'AMD64'",
+]
+override-dependencies = [
+    "numpy>=2",
+    "mujoco~=3.12.0",
+    "mujoco-warp~=3.12.0",
+    "newton[sim]==1.6.1",
+    "newton-usd-schemas>=0.5.0",
+    "usd-exchange==3.0.1",
+    "usd-optimize~=1.3.1",
+    "torch==2.11.0",
+    "torchvision==0.26.0",
+    "fsspec>=2026.6.0",
+    "packaging>=20,<27",
+    "urllib3>=2.8.0",
+]
+
+[tool.uv.sources]
+"isaaclab" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab", editable = true }
+"isaaclab-assets" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_assets", editable = true }
+"isaaclab-contrib" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_contrib", editable = true }
+"isaaclab-dev" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab", editable = true }
+"isaaclab-experimental" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_experimental", editable = true }
+"isaaclab-mimic" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_mimic", editable = true }
+"isaaclab-newton" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_newton", editable = true }
+"isaaclab-ov" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_ov", editable = true }
+"isaaclab-physx" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_physx", editable = true }
+"isaaclab-ppisp" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_ppisp", editable = true }
+"isaaclab-rl" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_rl", editable = true }
+"isaaclab-tasks" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_tasks", editable = true }
+"isaaclab-tasks-experimental" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_tasks_experimental", editable = true }
+"isaaclab-teleop" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_teleop", editable = true }
+"isaaclab-visualizers" = { path = "/home/hanaki/Isaac/workspaces/isaaclab3/IsaacLab/source/isaaclab_visualizers", editable = true }
+"omniverseclient" = { index = "pypi-public" }
+"ovphysx" = { index = "pypi-public" }
+"ovrtx" = { index = "pypi-public" }
+"ovstage" = { index = "pypi-public" }
+"torch" = { index = "pytorch-cu130" }
+"torchvision" = { index = "pytorch-cu130" }
+
+[tool.uv.build-backend]
+module-name = "rl_training"
+module-root = "source/rl_training"
+
+
+[[tool.uv.index]]
+url = "https://pypi.nvidia.com"
+explicit = false
+
+[[tool.uv.index]]
+name = "pypi-public"
+url = "https://pypi.org/simple"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401", "F403"]
+"**/__init__.pyi" = ["F401", "F403"]
